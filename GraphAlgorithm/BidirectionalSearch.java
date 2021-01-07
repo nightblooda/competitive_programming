@@ -19,20 +19,16 @@ public class BidirectionalSearch {
     graph.get(v).add(u);
   }
 
-  void bfs(boolean visited[], int parent[], int s){
-    Queue<Integer> que = new LinkedList<Integer>();
-    que.add(s);
-    visited[s] = true;
-    while(!que.isEmpty()){
-      int temp = que.poll();
-      for(int i : graph.get(temp)){
-        if(!visited[i]){
-          visited[i] = true;
-          parent[i] = temp;
-          que.add(i);
-        }
+  void bfs(boolean visited[], int parent[], Queue<Integer> que){
+    int s = que.poll();
+    for(int i : graph.get(s)){
+      if(!visited[i]){
+        visited[i] = true;
+        parent[i] = s;
+        que.add(i);
       }
     }
+    
   }
 
   void join(ArrayList<Integer> path, int intersection, int parent[], int s){
@@ -51,31 +47,47 @@ public class BidirectionalSearch {
     s_parent[s] = -1;
     e_parent[d] = -1;
 
-    bfs(s_visited, s_parent, s);
-    bfs(e_visited, e_parent, d);
+    Queue<Integer> s_que = new LinkedList<Integer>();
+    Queue<Integer> e_que = new LinkedList<Integer>();
 
-    int intersection = -1;
+    s_visited[s] = true;
+    e_visited[d] = true;
+
+    s_que.add(s);
+    e_que.add(d);
+
+    while(!s_que.isEmpty() && !e_que.isEmpty()){
+      bfs(s_visited, s_parent, s_que);
+      bfs(e_visited, e_parent, e_que);
+
+      int intersection = -1;
     
-    for(int i = 0; i < V; i++){
-      if(s_visited[i] && e_visited[i]){
-        intersection = i;
-        break;
+      for(int i = 0; i < V; i++){
+        if(s_visited[i] && e_visited[i]){
+          intersection = i;
+          break;
+        }
       }
-    }
 
-    ArrayList<Integer> path = new ArrayList<Integer>();
-    if(intersection != -1){
-      path.add(intersection);
-      join(path, intersection, s_parent, s);
-      Collections.reverse(path);
-      join(path, intersection, e_parent, d);
-      System.out.println("Path between "+s+" "+d+":");
-      for(int i = 0; i < path.size(); i++){
-        System.out.print(path.get(i)+" ");
+      ArrayList<Integer> path = new ArrayList<Integer>();
+      if(intersection != -1){
+        path.add(intersection);
+        join(path, intersection, s_parent, s);
+        Collections.reverse(path);
+        join(path, intersection, e_parent, d);
+        System.out.println("Path between "+s+" "+d+":");
+        for(int i = 0; i < path.size(); i++){
+          System.out.print(path.get(i)+" ");
+        }
+        System.out.println();
+        return;
       }
-    }else{
-      System.out.println("No path exist between "+s+" "+d);
+
     }
+    System.out.println("No path between "+s+" "+d);
+
+    
+
   }
 
   public static void main(String args[]){
