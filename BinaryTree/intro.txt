@@ -1,0 +1,2 @@
+Types of binary tree- https://www.geeksforgeeks.org/binary-tree-set-3-types-of-binary-tree/
+Handshaking Lemma and Interesting Tree Properties- https://www.geeksforgeeks.org/handshaking-lemma-and-interesting-tree-properties/
