@@ -45,12 +45,32 @@ public class InsertionDeletion {
         inorder(root.right);
     }
 
-    static int deleteDeepest(Node root){
-        Node temp = root;
-        while(temp != null){
-            Node temp = que.poll();
-            if(temp.right != null)
-
+    static void deleteDeepest(Node root, Node temp) {
+        if (root == temp) {
+            root = null;
+            return;
+        }
+        Node cur = root;
+        Queue<Node> que = new LinkedList<Node>();
+        que.add(cur);
+        while (!que.isEmpty()) {
+            cur = que.poll();
+            if (cur.right != null) {
+                if (cur.right == temp) {
+                    cur.right = null;
+                    return;
+                } else {
+                    que.add(cur.right);
+                }
+            }
+            if (cur.left != null) {
+                if (cur.left == temp) {
+                    cur.left = null;
+                    return;
+                } else {
+                    que.add(cur.left);
+                }
+            }
         }
     }
 
@@ -67,23 +87,24 @@ public class InsertionDeletion {
         Queue<Node> que = new LinkedList<Node>();
         que.add(root);
         Node keyNode = null;
+        Node temp = null;
         while (!que.isEmpty()) {
-            Node temp = que.poll();
+            temp = que.poll();
             if (temp.key == key) {
                 keyNode = temp;
-                break;
-            }
-            if (temp.right != null) {
-                que.add(temp.right);
             }
             if (temp.left != null) {
                 que.add(temp.left);
+            }
+            if (temp.right != null) {
+                que.add(temp.right);
             }
         }
         if (keyNode == null) {
             return;
         }
-        int val = deleteDeepest(root);
+        int val = temp.key;
+        deleteDeepest(root, temp);
         keyNode.key = val;
     }
 
