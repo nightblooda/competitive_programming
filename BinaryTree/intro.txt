@@ -1,2 +1,8 @@
 Types of binary tree- https://www.geeksforgeeks.org/binary-tree-set-3-types-of-binary-tree/
 Handshaking Lemma and Interesting Tree Properties- https://www.geeksforgeeks.org/handshaking-lemma-and-interesting-tree-properties/
+
+A Binary tree is Perfect Binary Tree in which all internal nodes have two children and all leaves are at same level.
+
+A full binary tree is defined as a binary tree in which all nodes have either zero or two child nodes
+
+A complete binary tree is a binary tree in which every level, except possibly the last, is completely filled, and all nodes are as far left as possible.
